@@ -1,0 +1,6 @@
+node_modules/
+process.env
+.idea/
+.vscode/
+uploads/
+dist/
