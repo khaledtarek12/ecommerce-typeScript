@@ -6,38 +6,44 @@ class CategoriesValidation {
   createCategory = [
     body("name")
       .notEmpty()
-      .withMessage("Category name is required")
+      .withMessage((value, { req }) => req.__("validation_field"))
       .isLength({ min: 2, max: 50 })
-      .withMessage("invalid category length")
-      .custom(async (value: string) => {
+      .withMessage((value, { req }) => req.__("validation_length_short"))
+      .custom(async (value: string, { req }) => {
         const category = await CategoriesModel.findOne({ name: value });
-        if (category) throw new Error("Category already exists");
+        if (category) throw new Error(`${req.__("validation_field")}`);
         return true;
       }),
     validatorMiddleware,
   ];
 
   updateCategory = [
-    param("id").isMongoId().withMessage("invalid Id"),
+    param("id")
+      .isMongoId()
+      .withMessage((value, { req }) => req.__("validation_value")),
     body("name")
       .optional()
       .isLength({ min: 2, max: 50 })
-      .withMessage("invalid category length")
+      .withMessage((value, { req }) => req.__("validation_length_short"))
       .custom(async (value: string, { req }) => {
         const category = await CategoriesModel.findOne({ name: value });
         if (category && category._id!.toString() !== req.params?.id)
-          throw new Error("Category already exists");
+          throw new Error(`${req.__("validation_field")}`);
         return true;
       }),
     validatorMiddleware,
   ];
 
   getCategory = [
-    param("id").isMongoId().withMessage("invalid Id"),
+    param("id")
+      .isMongoId()
+      .withMessage((value, { req }) => req.__("validation_value")),
     validatorMiddleware,
   ];
   deleteCategory = [
-    param("id").isMongoId().withMessage("invalid Id"),
+    param("id")
+      .isMongoId()
+      .withMessage((value, { req }) => req.__("validation_value")),
     validatorMiddleware,
   ];
 }

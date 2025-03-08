@@ -1,0 +1,12 @@
+{
+  "not_found": "البيانات غير موجودة",
+  "invalid_id": "معرف غير صالح",
+  "validation_field": "الحقل مطلوب",
+  "validation_value": "قيمة غير صالحة",
+  "validation_email_check": "البريد الإلكتروني موجود بالفعل",
+  "validation_length_short": "الطول بين 10 و 50",
+  "validation_length_meduim": "الطول بين 10 و 150",
+  "validation_length_long": "الطول بين 10 و 500",
+  "validation_length_password": "كلمة المرور بين 6 و 20",
+  "validation_password_match": "كلمة المرور غير متطابقة"
+}

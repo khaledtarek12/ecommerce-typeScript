@@ -6,47 +6,53 @@ class SubCategoriesValidation {
   createSubCategory = [
     body("name")
       .notEmpty()
-      .withMessage("SubCategory name is required")
+      .withMessage((value, { req }) => req.__("validation_field"))
       .isLength({ min: 2, max: 50 })
-      .withMessage("invalid category length"),
+      .withMessage((value, { req }) => req.__("validation_length_short")),
     body("category")
       .notEmpty()
-      .withMessage("Category is required")
+      .withMessage((value, { req }) => req.__("validation_field"))
       .isMongoId()
-      .withMessage("invalid Id")
+      .withMessage((value, { req }) => req.__("validation_value"))
       .custom(async (value: string, { req }) => {
         const category = await CategoriesModel.findById(value);
-        if (!category) throw new Error("Category not found");
+        if (!category) throw new Error(`${req.__("validation_field")}`);
         return true;
       }),
     validatorMiddleware,
   ];
 
   updateSubCategory = [
-    param("id").isMongoId().withMessage("invalid Id"),
+    param("id")
+      .isMongoId()
+      .withMessage((value, { req }) => req.__("validation_value")),
     body("name")
       .optional()
       .isLength({ min: 2, max: 50 })
-      .withMessage("invalid category length"),
+      .withMessage((value, { req }) => req.__("validation_length_short")),
     body("category")
       .optional()
       .isMongoId()
-      .withMessage("invalid Id")
-      .custom(async (value: string) => {
+      .withMessage((value, { req }) => req.__("validation_value"))
+      .custom(async (value: string, { req }) => {
         const category = await CategoriesModel.findById(value);
-        if (!category) throw new Error("Category not found");
+        if (!category) throw new Error(`${req.__("validation_field")}`);
         return true;
       }),
     validatorMiddleware,
   ];
 
   getSubCategory = [
-    param("id").isMongoId().withMessage("invalid Id"),
+    param("id")
+      .isMongoId()
+      .withMessage((value, { req }) => req.__("validation_value")),
     validatorMiddleware,
   ];
 
   deleteSubCategory = [
-    param("id").isMongoId().withMessage("invalid Id"),
+    param("id")
+      .isMongoId()
+      .withMessage((value, { req }) => req.__("validation_value")),
     validatorMiddleware,
   ];
 }

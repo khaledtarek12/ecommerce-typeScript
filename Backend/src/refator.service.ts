@@ -22,7 +22,7 @@ class RefactorService {
     AsyncHandler(async (req: Request, res: Response, next: NextFunction) => {
       const { id } = req.params;
       const document: modelType | null = await model.findById(id);
-      if (!document) return next(new ApiErrors(`data not found`, 404));
+      if (!document) return next(new ApiErrors(req.__("not_found"), 404));
       res.status(201).json({ data: document });
     });
 
@@ -34,7 +34,7 @@ class RefactorService {
         req.body,
         { new: true }
       );
-      if (!document) return next(new ApiErrors(`data not found`, 404));
+      if (!document) return next(new ApiErrors(req.__("not_found"), 404));
       res.status(201).json({ data: document });
     });
 
@@ -42,7 +42,7 @@ class RefactorService {
     AsyncHandler(async (req: Request, res: Response, next: NextFunction) => {
       const { id } = req.params;
       const document: modelType | null = await model.findByIdAndDelete(id);
-      if (!document) return next(new ApiErrors(`data not found`, 404));
+      if (!document) return next(new ApiErrors(req.__("not_found"), 404));
       res.status(204).json();
     });
 }
