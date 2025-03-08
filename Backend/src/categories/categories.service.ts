@@ -1,48 +1,17 @@
-import { Request, Response, NextFunction } from "express";
 import { Categories } from "./categories.interface";
 import CategoriesModel from "./categories.schema";
-import AsyncHandler from "express-async-handler";
+import refactorService from "../refator.service";
 
 class CategoriesService {
-  getAll = AsyncHandler(
-    async (req: Request, res: Response, next: NextFunction) => {
-      const categories: Categories[] = await CategoriesModel.find();
-      res.status(200).json({ data: categories });
-    }
-  );
+  getAll = refactorService.getAll<Categories>(CategoriesModel);
 
-  createOne = AsyncHandler(
-    async (req: Request, res: Response, next: NextFunction) => {
-      const category: Categories = await CategoriesModel.create(req.body);
-      res.status(201).json({ data: category });
-    }
-  );
+  createOne = refactorService.createOne<Categories>(CategoriesModel);
 
-  getOne = AsyncHandler(
-    async (req: Request, res: Response, next: NextFunction) => {
-      const { id } = req.params;
-      const category: Categories | null = await CategoriesModel.findById(id);
-      res.status(201).json({ data: category });
-    }
-  );
+  getOne = refactorService.getOne<Categories>(CategoriesModel);
 
-  updateOne = AsyncHandler(
-    async (req: Request, res: Response, next: NextFunction) => {
-      const { id } = req.params;
-      const category: Categories | null =
-        await CategoriesModel.findByIdAndUpdate(id, req.body, { new: true });
-      res.status(201).json({ data: category });
-    }
-  );
+  updateOne = refactorService.updateOne<Categories>(CategoriesModel);
 
-  deleteOne = AsyncHandler(
-    async (req: Request, res: Response, next: NextFunction) => {
-      const { id } = req.params;
-      const category: Categories | null =
-        await CategoriesModel.findByIdAndDelete(id);
-      res.status(204).json();
-    }
-  );
+  deleteOne = refactorService.deleteOne<Categories>(CategoriesModel);
 }
 
 const categoriesService = new CategoriesService();

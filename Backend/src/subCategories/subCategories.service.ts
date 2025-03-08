@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import AsyncHandler from "express-async-handler";
 import SubCategoriesModel from "./subCategories.module";
 import { SubCategories } from "./subCategories.interface";
+import refactorService from "../refator.service";
 class subCategoriesService {
   setCategoryId(req: Request, res: Response, next: NextFunction) {
     if (req.params.categoryId && !req.body.categoryId)
@@ -16,52 +17,15 @@ class subCategoriesService {
     next();
   }
 
-  getAll = AsyncHandler(
-    async (req: Request, res: Response, next: NextFunction) => {
-      let filterData: any = {};
-      if (req.filterData) filterData = req.filterData;
-      const subCategories: SubCategories[] = await SubCategoriesModel.find(
-        filterData
-      );
-      res.status(200).json({ data: subCategories });
-    }
-  );
+  getAll = refactorService.getAll<SubCategories>(SubCategoriesModel);
 
-  createOne = AsyncHandler(
-    async (req: Request, res: Response, next: NextFunction) => {
-      const subCategory: SubCategories = await SubCategoriesModel.create(
-        req.body
-      );
-      res.status(201).json({ data: subCategory });
-    }
-  );
+  createOne = refactorService.createOne<SubCategories>(SubCategoriesModel);
 
-  getOne = AsyncHandler(
-    async (req: Request, res: Response, next: NextFunction) => {
-      const { id } = req.params;
-      const subCategory: SubCategories | null =
-        await SubCategoriesModel.findById(id);
-      res.status(201).json({ data: subCategory });
-    }
-  );
+  getOne = refactorService.getOne<SubCategories>(SubCategoriesModel);
 
-  updateOne = AsyncHandler(
-    async (req: Request, res: Response, next: NextFunction) => {
-      const { id } = req.params;
-      const subCategory: SubCategories | null =
-        await SubCategoriesModel.findByIdAndUpdate(id, req.body, { new: true });
-      res.status(201).json({ data: subCategory });
-    }
-  );
+  updateOne = refactorService.updateOne<SubCategories>(SubCategoriesModel);
 
-  deleteOne = AsyncHandler(
-    async (req: Request, res: Response, next: NextFunction) => {
-      const { id } = req.params;
-      const subCategory: SubCategories | null =
-        await SubCategoriesModel.findByIdAndDelete(id);
-      res.status(204).json();
-    }
-  );
+  deleteOne = refactorService.deleteOne<SubCategories>(SubCategoriesModel);
 }
 
 const SubCategoriesService = new subCategoriesService();
