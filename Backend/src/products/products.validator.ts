@@ -2,13 +2,14 @@ import { body, param } from "express-validator";
 import validatorMiddleware from "../middlewares/validator.middleware";
 import SubCategoriesModel from "../subCategories/subCategories.module";
 import CategoriesModel from "../categories/categories.schema";
+import ProductsModel from "./products.module";
 
 class ProductsValidation {
   createSubCategory = [
     body("name")
       .notEmpty()
       .withMessage((value, { req }) => req.__("validation_field"))
-      .isLength({ min: 2, max: 50 })
+      .isLength({ min: 2, max: 100 })
       .withMessage((value, { req }) => req.__("validation_length_short")),
     body("description")
       .notEmpty()
@@ -69,7 +70,7 @@ class ProductsValidation {
       .withMessage((value, { req }) => req.__("validation_value")),
     body("name")
       .optional()
-      .isLength({ min: 2, max: 50 })
+      .isLength({ min: 2, max: 100 })
       .withMessage((value, { req }) => req.__("validation_length_short")),
     body("description")
       .optional()
@@ -109,10 +110,16 @@ class ProductsValidation {
       .isMongoId()
       .withMessage((value, { req }) => req.__("validation_value"))
       .custom(async (value: string, { req }) => {
+        const id = req.params?.id;
+        const product = await ProductsModel.findById(id);
+
+        if (!product) throw new Error(req.__("not_found"));
+
         const subCategory = await SubCategoriesModel.findById(value);
         if (!subCategory) throw new Error(`${req.__("validation_field")}`);
         if (
-          subCategory.category._id!.toString() !== req.body.category.toString()
+          subCategory.category._id!.toString() !==
+          product.category._id!.toString()
         )
           throw new Error(`SubCategory not belong to this category`);
         return true;
