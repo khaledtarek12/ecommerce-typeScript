@@ -2,14 +2,30 @@ import { Request, Response, NextFunction } from "express";
 import AsyncHandler from "express-async-handler";
 import mongoose from "mongoose";
 import ApiErrors from "./utils/apiErrors";
+import Features from "./utils/features";
 
 class RefactorService {
-  getAll = <modelType>(model: mongoose.Model<any>) =>
+  getAll = <modelType>(model: mongoose.Model<any>, modelName?: string) =>
     AsyncHandler(async (req: Request, res: Response, next: NextFunction) => {
       let filterData: any = {};
       if (req.filterData) filterData = req.filterData;
-      const documents: modelType[] = await model.find(filterData);
-      res.status(200).json({ data: documents });
+      const documentCount: number = await model
+        .find(filterData)
+        .countDocuments();
+      const features = new Features(model.find(filterData), req.query)
+        .Sort()
+        .LimitFields()
+        .Search(modelName!)
+        .Pagination(documentCount);
+      const { mongooseQuery, paginationResult } = features;
+      const documents: modelType[] = await mongooseQuery;
+      res
+        .status(200)
+        .json({
+          length: documents.length,
+          pagination: paginationResult,
+          data: documents,
+        });
     });
 
   createOne = <modelType>(model: mongoose.Model<any>) =>

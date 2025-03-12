@@ -3,7 +3,7 @@ import { Products } from "./products.interface";
 import refactorService from "../refator.service";
 class ProductsService {
 
-  getAll = refactorService.getAll<Products>(ProductsModel);
+  getAll = refactorService.getAll<Products>(ProductsModel , 'products');
 
   createOne = refactorService.createOne<Products>(ProductsModel);
 
