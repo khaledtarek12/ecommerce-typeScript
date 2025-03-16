@@ -13,6 +13,7 @@ class RefactorService {
         .find(filterData)
         .countDocuments();
       const features = new Features(model.find(filterData), req.query)
+        .Filter()
         .Sort()
         .LimitFields()
         .Search(modelName!)

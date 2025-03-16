@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 class Features {
-
   public paginationResult: any;
   constructor(
     public mongooseQuery: mongoose.Query<any[], any>,
@@ -9,6 +8,19 @@ class Features {
   ) {}
 
   Filter() {
+    const queryStringObj = { ...this.queryString };
+    const excludedFields: string[] = [
+      "page",
+      "sort",
+      "limit",
+      "fields",
+      "search",
+      "lang",
+    ];
+    excludedFields.forEach((el: string) => delete queryStringObj[el]);
+    let queryStr: string = JSON.stringify(queryStringObj);
+    queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (match) => `$${match}`);
+    this.mongooseQuery = this.mongooseQuery.find(JSON.parse(queryStr));
     return this;
   }
 
