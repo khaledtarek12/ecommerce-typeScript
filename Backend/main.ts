@@ -11,6 +11,7 @@ let server: Server;
 const app: express.Application = express();
 app.use(express.json({ limit: "10kb" }));
 dotenv.config({ path: "./process.env" });
+app.use(express.static(path.join(__dirname, "uploads")));
 app.use(hpp({ whitelist: ["price"] }));
 i18n.configure({
   locales: ["en", "ar"],

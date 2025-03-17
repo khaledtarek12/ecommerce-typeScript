@@ -1,8 +1,7 @@
-import { Router, Request, Response, NextFunction } from "express";
+import { Router } from "express";
 import ProductsService from "./products.service";
 import productsValidation from "./products.validator";
-import multer from "multer";
-import sharp from "sharp";
+
 import productsService from "./products.service";
 
 const productsRouter: Router = Router();
