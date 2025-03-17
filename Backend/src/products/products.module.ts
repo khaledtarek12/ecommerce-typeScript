@@ -21,6 +21,20 @@ const ProductsSchema = new mongoose.Schema<Products>(
     timestamps: true,
   }
 );
+const setImageUrl = (doc: mongoose.Document & Products) => {
+  if (doc.cover) {
+    const imageUrl = `${process.env.BASE_URL}/images/products/${doc.cover}`;
+    doc.cover = imageUrl;
+  }
+  if (doc.images) {
+    const imagesUrl = doc.images.map((img) => `${process.env.BASE_URL}/images/products/${img}`).reverse();
+    doc.images = imagesUrl;
+  }
+};
+
+ProductsSchema.post("save", (doc) => setImageUrl(doc));
+ProductsSchema.post("init", (doc) => setImageUrl(doc));
+
 
 ProductsSchema.pre<Products>(/^find/, function (next) {
   this.populate({
