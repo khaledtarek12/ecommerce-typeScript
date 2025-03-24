@@ -10,5 +10,7 @@
   "validation_length_long": "الطول بين 10 و 500",
   "validation_length_password": "كلمة المرور بين 6 و 20",
   "validation_password_match": "كلمة المرور غير متطابقة",
-  "validation_phone": "رقم الهاتف غير صالح يقبل فقط الرقم المصري والسعودي"
+  "validation_phone": "رقم الهاتف غير صالح يقبل فقط الرقم المصري والسعودي",
+  "invalid_email_and_password": "البريد الإلكتروني او كلمة المرور غير صالحة",
+  "you_are_not_logged_in": "لم تقم بتسجيل الدخول ، يرجى تسجيل الدخول"
 }

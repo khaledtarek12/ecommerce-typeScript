@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from "express";
-import refactorService from "../refator.service";
 import sharp from "sharp";
-import { uploadSingleFile } from "../middlewares/uploadFiles.middleware";
 import expressAsyncHandler from "express-async-handler";
 import { User } from "./user.interface";
 import UserModel from "./user.module";
-import ApiErrors from "../utils/apiErrors";
 import bcrypt from "bcrypt";
+import refactorService from "../../refator.service";
+import { uploadSingleFile } from "../../middlewares/uploadFiles.middleware";
+import ApiErrors from "../../utils/apiErrors";
 
 class UserService {
   getAll = refactorService.getAll<User>(UserModel);

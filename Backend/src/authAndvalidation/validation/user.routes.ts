@@ -1,7 +1,6 @@
 import { Router } from "express";
 import userService from "./user.service";
 import userValidation from "./user.validators";
-import UserModel from "./user.module";
 const UserRouter: Router = Router();
 
 UserRouter.route("/")
@@ -13,7 +12,10 @@ UserRouter.route("/")
     userService.createOne
   );
 
-UserRouter.route("/change-password/:id").put(userService.updatePassword);
+UserRouter.route("/change-password/:id").put(
+  userValidation.updateUserPassword,
+  userService.updatePassword
+);
 
 UserRouter.route("/:id")
   .get(userValidation.getUser, userService.getOne)

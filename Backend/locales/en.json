@@ -10,5 +10,7 @@
   "validation_length_long": "length is between 10 , 500",
   "validation_length_password": "password is between 6 , 20",
   "validation_password_match": "password don't match",
-  "validation_phone": "Invalid phone number accept only Egypt and saudi numbers"
+  "validation_phone": "Invalid phone number accept only Egypt and saudi numbers",
+  "invalid_email_and_password": "Invalid email and password",
+  "you_are_not_logged_in": "You are not logged in , please login"
 }

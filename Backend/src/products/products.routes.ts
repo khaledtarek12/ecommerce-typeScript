@@ -4,10 +4,9 @@ import productsValidation from "./products.validator";
 
 import productsService from "./products.service";
 
-const productsRouter: Router = Router();
+const ProductsRouter: Router = Router();
 
-productsRouter
-  .route("/")
+ProductsRouter.route("/")
   .get(ProductsService.getAll)
   .post(
     productsService.uploadImages,
@@ -16,8 +15,7 @@ productsRouter
     ProductsService.createOne
   );
 
-productsRouter
-  .route("/:id")
+ProductsRouter.route("/:id")
   .get(productsValidation.getSubCategory, ProductsService.getOne)
   .put(
     productsService.uploadImages,
@@ -27,4 +25,4 @@ productsRouter
   )
   .delete(productsValidation.deleteSubCategory, ProductsService.deleteOne);
 
-export default productsRouter;
+export default ProductsRouter;
