@@ -40,6 +40,7 @@ class CategoriesValidation {
       .withMessage((value, { req }) => req.__("validation_value")),
     validatorMiddleware,
   ];
+
   deleteCategory = [
     param("id")
       .isMongoId()

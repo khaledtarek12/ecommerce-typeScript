@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { User } from "./user.interface";
+import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema<User>(
   {
@@ -26,6 +27,12 @@ const userSchema = new mongoose.Schema<User>(
   },
   { timestamps: true }
 );
+
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  this.password =await bcrypt.hash(this.password, 12);
+  next();
+})
 
 const setImageUrl = (doc: mongoose.Document & User) => {
   if (doc.profileImg) {

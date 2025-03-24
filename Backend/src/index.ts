@@ -4,7 +4,7 @@ import subCategoriesRouter from "./subCategories/subCategories.routes";
 import glopalErrors from "./middlewares/error.middleware";
 import ApiErrors from "./utils/apiErrors";
 import productsRouter from "./products/products.routes";
-import UserRouter from "./auth/userRoutes.routes";
+import UserRouter from "./auth/user.routes";
 
 declare module "express" {
   interface Request {
